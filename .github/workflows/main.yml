@@ -1,10 +1,16 @@
-# name: ObaSPro
+# name: DannTeam
+name: DannTeam
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      NGROK_TOKEN:
+        description: "Ngrok Auth Token"
+        required: true
+        type: string
 
 jobs:
   build:
-
     runs-on: windows-latest
     timeout-minutes: 9999
 
@@ -23,12 +29,12 @@ jobs:
     - name: Mengekstrak file
       run: Expand-Archive ngrok.zip
     - name: Masuk ke akun Ngrok
-      run: .\ngrok\ngrok.exe authtoken $Env:NGROK_AUTH_TOKEN
+      run: .\ngrok\ngrok.exe authtoken $Env:NGROK_TOKEN
       env:
-        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+        NGROK_TOKEN: ${{ github.event.inputs.NGROK_TOKEN }}
     - name: Mengaktifkan akses
       run: | 
-        Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0
+        Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -Value 0
         Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
         Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
         copy wallpaper.png D:\a\wallpaper.png
