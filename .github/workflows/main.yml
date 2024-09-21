@@ -45,5 +45,5 @@ jobs:
       run: Start-Process Powershell -ArgumentList '-Noexit -Command ".\ngrok\ngrok.exe tcp --region ap 3389"'
     - name: Install Remote Desktop
       run: cmd /c start.bat
-    - name: Berhasil di Install!
+    - name: Information
       run: cmd /c loop.bat
