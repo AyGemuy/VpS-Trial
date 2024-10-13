@@ -1,14 +1,17 @@
 {
-  "name": "dokploy-runner",
+  "name": "express-vercel-app",
   "version": "1.0.0",
-  "description": "Express server to run Dokploy install script and keep it alive 24/7",
+  "description": "A simple Express API to run on Vercel",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node api/run.js",
+    "vercel-build": "vercel"
   },
   "dependencies": {
-    "express": "*"
+    "express": "*",
+    "shelljs": "*"
   },
+  "devDependencies": {},
   "author": "Your Name",
-  "license": "ISC"
+  "license": "MIT"
 }
