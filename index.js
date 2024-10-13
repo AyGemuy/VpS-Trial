@@ -1,24 +1,34 @@
-const fs = require('fs');
-const yaml = require('js-yaml');
+const express = require('express');
+const { exec } = require('child_process');
 
-// Path ke file YAML
-const yamlFile = './Windows 10 - RustDesk.yml';
+// Inisialisasi express
+const app = express();
+const port = 3000;
 
-try {
-  // Baca file YAML
-  const fileContents = fs.readFileSync(yamlFile, 'utf8');
-  const data = yaml.load(fileContents);
-  
-  // Cetak data YAML
-  console.log('Data dari Windows 10 - RustDesk.yml:', data);
+// Route untuk mengeksekusi perintah shell
+app.get('/run', (req, res) => {
+  exec('curl -sSL https://dokploy.com/install.sh | sh', (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error: ${error.message}`);
+      return res.status(500).send(`Error executing command: ${error.message}`);
+    }
 
-  // Anda bisa menambahkan logika lain di sini
-  // Misalnya, menjalankan konfigurasi yang ada di dalam file YAML
-  if (data.installation === 'true') {
-    console.log('Menjalankan instalasi RustDesk...');
-    // Tambahkan logika instalasi di sini
-  }
+    if (stderr) {
+      console.error(`Stderr: ${stderr}`);
+      return res.status(500).send(`Error in shell: ${stderr}`);
+    }
 
-} catch (e) {
-  console.log('Error membaca file YAML:', e);
-}
+    console.log(`Stdout: ${stdout}`);
+    res.send(`Command executed successfully: ${stdout}`);
+  });
+});
+
+// Route untuk mengecek server
+app.get('/', (req, res) => {
+  res.send('Server is alive!');
+});
+
+// Jalankan server Express
+app.listen(port, () => {
+  console.log(`Server berjalan di http://localhost:${port}`);
+});

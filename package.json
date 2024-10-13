@@ -1,12 +1,14 @@
 {
-  "name": "rustdesk-config",
+  "name": "dokploy-runner",
   "version": "1.0.0",
-  "description": "Proyek untuk menjalankan RustDesk.yml",
+  "description": "Express server to run Dokploy install script and keep it alive 24/7",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
-    "js-yaml": "*"
-  }
+    "express": "*"
+  },
+  "author": "Your Name",
+  "license": "ISC"
 }
